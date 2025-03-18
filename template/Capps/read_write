@@ -1,0 +1,96 @@
+class Qinput {
+    static constexpr int BufferSize = 1 << 20;
+    char iBuffer[BufferSize];
+    char *q = iBuffer;
+    char *p = iBuffer;
+
+    char fgetchar() noexcept {
+        if (p != q) {
+            return *q++;
+        }
+        q = iBuffer;
+        p = q + fread(iBuffer, 1, BufferSize, stdin);
+        return p == q ? EOF : *q++;
+    }
+
+    template <class T>
+    T readint() {
+        T res = 0;
+        char ch = fgetchar();
+        while (!isdigit(ch)) {
+            ch = fgetchar();
+        }
+        while (isdigit(ch)) {
+            res = res * 10 + ch - '0';
+            ch = fgetchar();
+        }
+            
+        return res;
+    }
+
+    Qinput() = default;
+public:
+    static Qinput &getInstance() {
+        static Qinput object;
+        return object;
+    }
+    
+    Qinput &operator>>(int &obj) {
+        obj = readint<int>();
+        return *this;
+    }
+
+    Qinput &operator>>(long long &obj) {
+        obj = readint<long long>();
+        return *this;
+    }
+
+    Qinput &operator>>(char &ch) {
+        ch = fgetchar();
+        while (ch == ' ' or ch == '\n' or ch == '\r' or ch == '\t') {
+            ch = fgetchar();
+        }
+        return *this;
+    }
+};
+
+class Qoutput {
+    template <class T>
+    void writeint(T a) {
+        if (a < 0) {
+            putchar('-');
+            writeint(-a);
+            return;
+        }
+        if (a > 9) {
+            writeint(a / 10);
+        }
+        putchar(a % 10 + '0');
+    }
+
+    Qoutput() = default;
+public:
+    static Qoutput &getInstance() {
+        static Qoutput object;
+        return object;
+    }
+    
+    Qoutput &operator<<(int obj) {
+        writeint(obj);
+        return *this;
+    }
+
+    Qoutput &operator<<(long long obj) {
+        writeint(obj);
+        return *this;
+    }
+
+    Qoutput &operator<<(char c) {
+        putchar(c);
+        return *this;
+    }
+};
+
+// qin/qout默认只支持非负数和字符，暂不支持其他类型
+Qinput qin = Qinput::getInstance();
+Qoutput qout = Qoutput::getInstance();
