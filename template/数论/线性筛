@@ -1,0 +1,18 @@
+#include <bits/stdc++.h>
+const int n = 1e6 + 5;
+int mpf[n];//mpf[i] = min prime factor of i
+std::vector<int> prime;
+int EulerSieve=[](){
+    for(int i = 2; i < n; i++){
+        if(!mpf[i]){
+            mpf[i] = i;
+            prime.push_back(i);
+        }
+        for(auto p:prime){
+            if(1ll * i * p >= n) break;
+            mpf[i * p] = p;//所有的质数都会与i相乘，包括i本身
+            if(mpf[i] == p) break;
+        } 
+    }
+    return 0;
+}();
