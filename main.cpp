@@ -1,10 +1,15 @@
 #include <bits/stdc++.h>
+//#include"style.h"
 using namespace std;
 #define rep(i, n) for (int i = 0; i < (n); ++i)
 #define rep1(i, n) for (int i = 1; i <= (n); ++i)
 #define ll long long
 #define lll __int128_t
- 
+#define int ll
+std::mt19937_64 rng{std::chrono::system_clock::now().time_since_epoch().count()};
+
+//cout<<'\n;
+//const int MOD = 998244353;
 struct Point{
     int x;//y;
     int val;
@@ -16,73 +21,58 @@ struct Point{
 //  int frm,to;
 //  int wht=1;
 // };
-bool cmp(Point& a, Point& b) {
-    return a.val < b.val; 
+// bool cmp(Point& a, Point& b) {
+//     return a.val < b.val; 
+// }
+bool cmp(int a, int b) {
+    return a > b;
 }
+
 void solve();
-int main() {
+signed main() {
     ios::sync_with_stdio(false);
     cin.tie(NULL);
-    
+
     int t = 1;
-    //cin >> t;
+   // cin >> t;
     while (t--) {
         solve();
     }
     return 0;
 }
 
-const int MOD = 1e9 + 7;
-//  void dfs(int u, int fa, vector<vector<ll>>& g, vector<ll>& wht){
-  
-//  }
+//const int MAXN = 4e4+5;
 void solve() {
-    ll n;
-    cin >> n;
-    vector<Point>deg(n+1);//dout(n+1);
-    //vector<ll> a(n);
-    //ll sum=0;
-    vector<pair<ll,ll>>edge;
-    vector<vector<ll>> g(n+1);
-    vector<ll>wht(n+1);//weight
-    for(int i=1;i<=n-1;i++){
-        ll u,v;
-        cin>>u>>v;
-        //sum+=abs(u-v);
-        deg[u].val++;
-        deg[v].val++;
-        deg[u].x=u;
-        deg[v].x=v;
-        g[u].push_back(v);
-        g[v].push_back(u);
-        edge.push_back({u,v});
+    int l,r,e;
+    cin >> l >> r >> e;
+    // vector<int> L(l);
+    // vector<int> R(r);
+    vector<vector<ll>>adj(l);
+    for(int i=0;i<e;++i){
+        int a,b;
+        cin >> a >> b;
+        adj[a-1].push_back(b-1);
     }
+    vector<int>mtch(r,-1);//右部点的匹配（左部点）
+    vector<int>vis(r,0);//右部点是否访问过
+    auto dfs=[&](auto dfs,int u)->int{//匈牙利算法,dfs的作用是找增广路
+       for(auto v:adj[u]){
+        if(vis[v])continue;
+        vis[v]=1;
+        if(mtch[v]==-1||dfs(dfs,mtch[v])){//如果没有匹配或者可以找到新的匹配,则匹配上来
+
+            mtch[v]=u;
+            return 1;
+        }
+       }
+       return 0;
+
+    };
+    int ans=0;
+    fill(vis.begin(),vis.end(),0);
+    for(int i=0;i<l;++i){
+        ans+=dfs(dfs,i);
+    }
+    cout<<ans<<'\n';
     
-    vector<ll>sum(n+1);
-    vector<ll>parent(n+1);
-    stack<pair<ll,bool>>st;
-    st.push({1,0});
-    parent[1]=0;
-    while(!st.empty()){
-        auto [u,flag]=st.top();
-        st.pop();
-        if(!flag){
-            st.push({u,1});
-            for(auto v:g[u]){
-                if(v==parent[u])continue;
-                parent[v]=u;
-                st.push({v,0});
-            }
-
-        }
-        else{
-            sum[u]=0;
-            for(auto v:g[u]){
-                if(v==parent[u])continue;
-                sum[u]+=sum[v]+abs(v-u);
-                
-            } 
-        }
-    }
-
 }

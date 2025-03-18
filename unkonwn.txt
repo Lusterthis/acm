@@ -230,3 +230,59 @@ void solve() {
     dfs(adj,1);
 
 }
+
+
+
+
+
+
+
+
+
+  ll n,m,s;
+    ll Y=0;
+    cin>>n>>m>>s;
+    vector<ll> w(n+1),v(n+1);
+    for(int i=1;i<=n;i++){
+        cin>>w[i]>>v[i];
+    }
+    vector<pair<ll,ll>> M(m+1);
+    for(int i=1;i<=m;i++){
+        ll l,r;
+        cin>>l>>r;
+    }
+    int l=0,r=1e6;
+    while(l<r){
+        ll tmp=0;
+        ll mid=(r+l)/2;
+        for(int i=1;i<=n;i++){
+           if(w[i]>=mid){
+               tmp+=v[i];
+           } 
+        }
+    }
+
+
+int n,k;
+    cin>>n>>k;
+    ll ans=0;
+    vector<int> a(n+1);
+    vector<int>chck(n+1,1);
+    vector<vector<int>>v(n+1);
+    map<int,int>mp;
+    for(int i=1;i<=n;i++){
+        cin>>a[i];
+        mp[a[i]]++;
+        v[a[i]].push_back(i);
+    }
+    for(auto i:mp){
+        int cnt=0;
+        int tx=i.first;
+        for(int j=0;j<v[tx].size();j++){
+            int tl=v[tx][j],tr=v[tx][j];//下标
+            while(
+        }
+
+
+    }
+    cout<<ans<<'\n';

@@ -1,0 +1,36 @@
+对于 int 类型：数组大小不超过 50,000,000 个元素。
+对于 long long 或 double 类型：数组大小不超过 25,000,000 个元素。
+对于 char 或 bool 类型：数组大小不超过 200,000,000 个元素。
+
+
+
+
+
+
+
+ std::string str = "Hello, World!";
+    
+    // 提取从索引5开始的子字符串
+    std::string sub1 = str.substr(5);
+    std::cout << "Sub1: " << sub1 << std::endl;  // 输出：World!
+    
+    // 提取从索引5开始，长度为5的子字符串
+    std::string sub2 = str.substr(5, 5);
+    std::cout << "Sub2: " << sub2 << std::endl;  // 输出：World
+    
+    // 提取从索引0开始，长度为5的子字符串
+    std::string sub3 = str.substr(0, 5);
+    std::cout << "Sub3: " << sub3 << std::endl;  // 输出：Hello
+
+
+
+
+
+    最后一个索引，使其<=tgt
+    1.  <=tgt  i=lower_bound( , ,tgt+1),--i;
+    第一个索引，使其>=tgt：
+    2   >=tgt  i=lower_bound( , ,tgt);
+   第一个索引，使其大于tgt
+    3.  >tgt   i=upper_bound( , ,tgt)
+   
+    4.
