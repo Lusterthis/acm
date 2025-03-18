@@ -1,0 +1,12 @@
+const int Nc=20;
+int Catalan[Nc];
+auto pCat=[&](){
+    Catalan[0]=1;
+    Catalan[1]=1;
+    for(int i=2;i<Nc;i++){
+        for(int j=0;j<i;j++){
+            Catalan[i]+=Catalan[j]*Catalan[i-j-1];
+        } 
+    }
+    return 0;
+}();
