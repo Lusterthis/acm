@@ -1,0 +1,69 @@
+//二分图染色
+//从start点bfs遍历所有邻接点，01交替染色;
+//按此遍历所有点为start一次。
+vector<int> col;     // 颜色数组（同时作为visited标记，-1表示未访问）
+vector<vector<int>> adj;
+auto bfs=[&](int start)->bool{
+     if(col[start]!=-1) return 1;
+     queue<int> q;
+     q.push(start);
+     col[start]=0;
+   //  int sum0=1,sum1=0;
+     while(!q.empty()){
+        int u=q.front();
+        q.pop(); 
+        
+        for(auto v:adj[u]){
+        if(col[v]==-1){
+            col[v]=col[u]^1;
+            //col[v]==0?sum0++:sum1++;
+            q.push(v);
+        }else if(col[v]==col[u]){
+                return 0;
+        }
+        }
+       
+     }
+     //ans+=min(sum0,sum1);
+     return 1;
+    };
+
+//二分图最大匹配
+//分出左点集L,右点集R
+//vis表示右点是否 在当前循环 被访问过，chck记录右节点匹配的左节点
+//每次迭代清空vis，遍历到已匹配的右节点优先尝试给chck[右节点]（即左节点）寻找新的匹配，只要匹配到就可以return 1；
+void solve() {
+    int l,r,e;
+    cin >> l >> r >> e;
+    // vector<int> L(l);
+    // vector<int> R(r);
+    vector<vector<ll>>adj(l);
+    for(int i=0;i<e;++i){
+        int a,b;
+        cin >> a >> b;
+        adj[a-1].push_back(b-1);
+    }
+    vector<int>mtch(r,-1);//右部点的匹配（左部点）
+    vector<int>vis(r,0);//右部点是否访问过
+    auto dfs=[&](auto dfs,int u)->int{//匈牙利算法,dfs的作用是找增广路
+       for(auto v:adj[u]){
+        if(vis[v])continue;
+        vis[v]=1;
+        if(mtch[v]==-1||dfs(dfs,mtch[v])){//如果没有匹配或者可以找到新的匹配,则匹配上来
+
+            mtch[v]=u;
+            return 1;
+        }
+       }
+       return 0;
+
+    };
+    int ans=0;
+    
+    for(int i=0;i<l;++i){
+        fill(vis.begin(),vis.end(),0);
+        ans+=dfs(dfs,i);
+    }
+    cout<<ans<<'\n';
+    
+}
