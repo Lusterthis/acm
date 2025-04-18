@@ -1,0 +1,25 @@
+double prime(const vector<Point>& pnt) {
+    const int n = pnt.size();
+    vector<double>minst(n, 1e18);
+    vector<bool>used(n, false);
+    double res=0.0;
+    minst[0] = 0.0;
+    for(int i=0;i<n;i++){
+       int u=-1;
+       for(int j=0;j<n;j++){
+          if(!used[j] && (u==-1 || minst[j]<minst[u])){
+            u=j; 
+          } 
+       }   
+       used[u]=true;
+       res+=minst[u];
+       for(int j=0;j<n;j++){
+          if(!used[j]){
+            double d=sqrt(pnt[u].dis2(pnt[j]));
+            minst[j]=min(minst[j],d);
+          }
+       }
+    }
+    return res;
+
+}
